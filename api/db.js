@@ -35,6 +35,14 @@ const base = {
                             question: '90 - 10 = ?',
                             answer: '80',
                         },
+                        {
+                            question: '2 * 12 = ?',
+                            answer: '24',
+                        },
+                        {
+                            question: '56 / 7 = ?',
+                            answer: '8',
+                        },
                     ]
                 }
             ]
@@ -53,6 +61,10 @@ const base = {
                         {
                             question: '100 + 3 = ?',
                             answer: '103',
+                        },
+                        {
+                            question: '8640 - 640 = ?',
+                            answer: '8000',
                         },
                         {
                             question: '90 - 10 = ?',

@@ -23,7 +23,6 @@
     </div>
 </template>
 <script lang="ts" setup>
-// const axios = require('axios');
 import axios from 'axios';
 import router from '../../router/router';
 import { reactive } from 'vue';

@@ -4,7 +4,7 @@ import LoginForm from '../src/components/LoginForm.vue';
 import UserProfile from '../src/components/UserProfile.vue';
 
 const routes = [
-  { path: '/', component: LoginForm },
+  { path: '/', name: "loginPage", component: LoginForm },
   { path: '/users/:id', name: "user", component: UserProfile, props: true },
 ];
 
