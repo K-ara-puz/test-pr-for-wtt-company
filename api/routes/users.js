@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const base = require('../db');
 
+router.get('/', function(req, res) {
+  res.sendStatus(200)
+})
+
 router.post("/login", function (req, res) {
   let userData = req.body.user;
   let isMatch = false;
