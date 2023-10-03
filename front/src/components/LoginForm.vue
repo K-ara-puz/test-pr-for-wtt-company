@@ -41,10 +41,11 @@ const login = async () => {
     })
     .then( res => {
         if (res.data.status === 'success') {
+            let userData = res.data.userData[0];
             router.push({
                 name: 'user',
                 params: {
-                    id: res.data.userData.id
+                    id: userData.user_id
                 }
             })
         } else {
@@ -61,6 +62,7 @@ const login = async () => {
 <style lang="scss">
 .login {
     margin: 0 auto;
+    max-width: 700px;
     h1 {
         text-align: center;
     }

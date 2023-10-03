@@ -25,54 +25,66 @@
   </div>
 </template>
 <script setup>
-import { reactive } from 'vue';
 import axios from 'axios';
 import router from '../../router/router';
-import { onMounted, useAttrs } from 'vue';
+import { onMounted, useAttrs, reactive } from 'vue';
 
-let userTests = reactive(new Array());
+let userTests = reactive(new Array);
 let userId = useAttrs().id;
 
 onMounted(() => {
   loadTests();
 });
-
 const loadTests = () => {
   axios
     .post('http://localhost:3000/api/users/getTests', {
       userId: userId
     })
     .then((res) => {
-      if (res.data) {
-        res.data.forEach((element) => {
-          userTests.push(element)
-        })
-      }
+      res.data.forEach(question => {
+        if (!userTests.find(el => el.test_id === question.test_id)) {
+          let test = {
+            test_id: question.test_id,
+            questions: []
+          }
+          test.questions.push({
+            question: question.test_question
+          })
+          userTests.push(test)
+        } else {
+          let test = userTests.find(el => el.test_id == question.test_id);
+          test.questions.push({
+            question: question.test_question
+          })
+        }
+      })
     })
 }
 const finishTest = (testIndex) => {
   let testsForms = document.querySelectorAll('form')
   let targetTestForm = testsForms[testIndex - 1];
   let answers = targetTestForm.querySelectorAll('input');
+  const allQuestionsCount = answers.length;
   let testData = {};
   let answerIndex = 0;
 
   answers.forEach((answer) => {
-    testData[++answerIndex] = answer.value
+    if (answer.value != '') {
+      testData[++answerIndex] = answer.value
+    }
   });
+
+  if (Object.keys(testData).length < 1) return
 
   axios.post('http://localhost:3000/api/users/getTestsResult', {
     testNumber: testIndex,
     test: testData,
-    userId: userId
+    userId: userId,
+    allQuestionsCount,
   })
-  .then(() => {
-    loadTestResult();
+  .then((res) => {
+    userTests[testIndex - 1].testResult = res.data
   })
-}
-const loadTestResult = () => {
-    userTests.length = 0;
-    loadTests();
 }
 const signOut = () => {
     router.push({name: 'loginPage'})
